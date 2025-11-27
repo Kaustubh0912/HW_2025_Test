@@ -1,8 +1,9 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
-    public float moveSpeed = 3f;   
+    public float moveSpeed = 5f;
 
     private Rigidbody rb;
     private Vector3 inputDirection;
@@ -11,26 +12,29 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
     }
+
     private void Start()
     {
         if (GameConfig.Instance != null && GameConfig.Instance.IsConfigLoaded)
         {
             moveSpeed = GameConfig.Instance.GetPlayerSpeed();
         }
-        else
-        {
-            Debug.LogWarning("GameConfig not found, using default speed: " + moveSpeed);
-        }
     }
+
     private void Update()
     {
         float x = 0f;
         float z = 0f;
 
         if (GameInput.Instance.IsLeftActionPressed()) x = -1f;
-        if (GameInput.Instance.IsRightActionPressed()) x = 1f;
-        if (GameInput.Instance.IsUpActionPressed()) z = 1f;
+        if (GameInput.Instance.IsRightActionPressed()) x =  1f;
+        if (GameInput.Instance.IsUpActionPressed()) z =  1f;
         if (GameInput.Instance.IsDownActionPressed()) z = -1f;
 
         inputDirection = new Vector3(x, 0f, z).normalized;
@@ -38,9 +42,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector3 move = inputDirection * moveSpeed;
-        Vector3 velocity = new Vector3(move.x, rb.linearVelocity.y, move.z);
-
-        rb.linearVelocity = velocity;
+        Vector3 target = rb.position + inputDirection * moveSpeed * Time.fixedDeltaTime;
+        rb.MovePosition(target);
     }
 }

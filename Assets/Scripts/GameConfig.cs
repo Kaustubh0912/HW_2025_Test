@@ -48,15 +48,12 @@ public class GameConfig : MonoBehaviour
 
     private IEnumerator LoadConfigWithPriority()
     {
-        // Priority 1: Check for local file
         if (configFile != null)
         {
             LoadFromFile();
             yield break;
         }
 
-
-        // Priority 2: Try loading from Resources folder
         TextAsset resourceFile = Resources.Load<TextAsset>("doofus_diary");
         if (resourceFile != null)
         {
@@ -65,8 +62,6 @@ public class GameConfig : MonoBehaviour
             yield break;
         }
 
-
-        // Priority 3: Try fetching from URL
         if (!string.IsNullOrEmpty(configURL))
         {
             yield return StartCoroutine(FetchFromURL());
@@ -77,7 +72,6 @@ public class GameConfig : MonoBehaviour
             }
         }
 
-        // Priority 4: Fallback to default values
         LoadDefaultConfig();
     }
 
@@ -86,7 +80,6 @@ public class GameConfig : MonoBehaviour
         try
         {
             string jsonText = configFile.text;
-            Debug.Log("Config file content: " + jsonText);
 
             configData = JsonUtility.FromJson<GameConfigData>(jsonText);
             IsConfigLoaded = true;
@@ -130,7 +123,6 @@ public class GameConfig : MonoBehaviour
 
     private void LoadDefaultConfig()
     {
-        Debug.LogWarning("Using default configuration values");
         configData = new GameConfigData
         {
             player_data = new PlayerData { speed = 3f },
