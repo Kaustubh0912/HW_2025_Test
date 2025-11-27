@@ -108,26 +108,29 @@ public class PulpitManager : MonoBehaviour
     private Vector3 GetNextPulpitPosition()
     {
         List<Vector3> possiblePositions = new List<Vector3>
-        {
-            lastPulpitPosition + Vector3.forward * pulpitSize,
-            lastPulpitPosition + Vector3.back * pulpitSize,
-            lastPulpitPosition + Vector3.right * pulpitSize,
-            lastPulpitPosition + Vector3.left * pulpitSize
-        };
+    {
+        lastPulpitPosition + Vector3.forward * pulpitSize,
+        lastPulpitPosition + Vector3.back * pulpitSize,
+        lastPulpitPosition + Vector3.right * pulpitSize,
+        lastPulpitPosition + Vector3.left * pulpitSize
+    };
 
         possiblePositions.RemoveAll(pos => IsPulpitAtPosition(pos));
 
-        if (possiblePositions.Count == 0)
+        if (lastSpawnDirection != Vector3.zero) 
         {
-            int randomDir = Random.Range(0, 4);
-            Vector3[] directions = { Vector3.forward, Vector3.back, Vector3.right, Vector3.left };
-            return lastPulpitPosition + directions[randomDir] * pulpitSize;
+            Vector3 opposite = -lastSpawnDirection * pulpitSize;
+            Vector3 forbiddenPos = lastPulpitPosition + opposite;
+
+            possiblePositions.RemoveAll(pos => Vector3.Distance(pos, forbiddenPos) < 0.01f);
         }
 
         Vector3 chosenPosition = possiblePositions[Random.Range(0, possiblePositions.Count)];
         lastSpawnDirection = (chosenPosition - lastPulpitPosition).normalized;
+
         return chosenPosition;
     }
+
 
     private bool IsPulpitAtPosition(Vector3 position)
     {

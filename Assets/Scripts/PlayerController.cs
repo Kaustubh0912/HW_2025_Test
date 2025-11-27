@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody rb;
     private Vector3 inputDirection;
+    private Pulpit currentPulpit;
 
     private void Awake()
     {
@@ -38,6 +39,28 @@ public class PlayerController : MonoBehaviour
         if (GameInput.Instance.IsDownActionPressed()) z = -1f;
 
         inputDirection = new Vector3(x, 0f, z).normalized;
+
+        CheckForPulpit();
+    }
+
+    private void CheckForPulpit()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, 2f))
+        {
+            Pulpit pulpit = hit.collider.GetComponent<Pulpit>();
+            if (pulpit != null)
+            {
+                if (currentPulpit != pulpit)
+                {
+                    currentPulpit = pulpit;
+                    if (ScoreManager.Instance != null)
+                    {
+                        ScoreManager.Instance.IncrementScore();
+                    }
+                }
+            }
+        }
     }
 
     private void FixedUpdate()
