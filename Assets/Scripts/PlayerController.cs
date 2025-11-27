@@ -22,10 +22,30 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        if (GameConfig.Instance != null && GameConfig.Instance.IsConfigLoaded)
+        if (GameConfig.Instance != null)
         {
-            moveSpeed = GameConfig.Instance.GetPlayerSpeed();
+            if (GameConfig.Instance.IsConfigLoaded)
+            {
+                moveSpeed = GameConfig.Instance.GetPlayerSpeed();
+            }
+            else
+            {
+                GameConfig.Instance.OnConfigLoaded += OnConfigLoaded;
+            }
         }
+    }
+
+    private void OnDestroy()
+    {
+        if (GameConfig.Instance != null)
+        {
+            GameConfig.Instance.OnConfigLoaded -= OnConfigLoaded;
+        }
+    }
+
+    private void OnConfigLoaded()
+    {
+        moveSpeed = GameConfig.Instance.GetPlayerSpeed();
     }
 
     private void Update()

@@ -25,16 +25,29 @@ public class PulpitManager : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(InitializeManager());
+        if (GameConfig.Instance != null)
+        {
+            if (GameConfig.Instance.IsConfigLoaded)
+            {
+                InitializeManager();
+            }
+            else
+            {
+                GameConfig.Instance.OnConfigLoaded += InitializeManager;
+            }
+        }
     }
 
-    private IEnumerator InitializeManager()
+    private void OnDestroy()
     {
-        while (GameConfig.Instance == null || !GameConfig.Instance.IsConfigLoaded)
+        if (GameConfig.Instance != null)
         {
-            yield return null;
+            GameConfig.Instance.OnConfigLoaded -= InitializeManager;
         }
+    }
 
+    private void InitializeManager()
+    {
         minDestroyTime = GameConfig.Instance.GetMinPulpitDestroyTime();
         maxDestroyTime = GameConfig.Instance.GetMaxPulpitDestroyTime();
         spawnTime = GameConfig.Instance.GetPulpitSpawnTime();

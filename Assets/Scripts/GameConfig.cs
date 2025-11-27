@@ -34,7 +34,18 @@ public class GameConfig : MonoBehaviour
     [SerializeField]private string configURL = "https://s3.ap-south-1.amazonaws.com/superstars.assetbundles.testbuild/doofus_game/doofus_diary.json";
 
     public GameConfigData configData;
-    public bool IsConfigLoaded { get; private set; }
+
+    public event Action OnConfigLoaded;
+    private bool isConfigLoaded;
+    public bool IsConfigLoaded 
+    { 
+        get => isConfigLoaded; 
+        private set 
+        {
+            isConfigLoaded = value;
+            if (isConfigLoaded) OnConfigLoaded?.Invoke();
+        }
+    }
 
     private void Awake()
     {
@@ -139,7 +150,7 @@ public class GameConfig : MonoBehaviour
 
     public float GetPlayerSpeed()
     {
-        return configData?.player_data.speed ?? 3f;
+        return configData?.player_data?.speed ?? 3f;
     }
 
     public float GetMinPulpitDestroyTime()
