@@ -1,6 +1,6 @@
 # 🎮 Doofus Adventure (HW_2025_Test)
 
-![Unity](https://img.shields.io/badge/Unity-6%2B-black?style=for-the-badge&logo=unity)
+![Unity](https://img.shields.io/badge/Unity-6.0%2B-black?style=for-the-badge&logo=unity)
 ![C#](https://img.shields.io/badge/C%23-Scripting-blue?style=for-the-badge&logo=c-sharp)
 ![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
 
