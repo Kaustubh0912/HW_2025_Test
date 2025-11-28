@@ -44,10 +44,10 @@ This project implements the following levels as per the assignment criteria:
 
 ## 🎥 Gameplay Demo
 
-Check out the gameplay recordings included in the repository:
+Check out the gameplay recordings:
 
-- **[📺 Watch Main Game Mode](Recordings/Main%20Game.mp4)**
-- **[📺 Watch Endless Mode](Recordings/Endless%20Mode.mp4)**
+- **[📺 Watch Main Game Mode](https://www.youtube.com/watch?v=HdC1q4obkh4)**
+- **[📺 Watch Endless Mode](https://www.youtube.com/watch?v=2pZv4_D6zV0)**
 
 ---
 
