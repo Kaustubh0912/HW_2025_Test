@@ -26,6 +26,9 @@ Guide Doofus to walk on as many Pulpits as possible. Be cautious! If Doofus walk
   - Pulpits last for a random time between `min_pulpit_destroy_time` and `max_pulpit_destroy_time`.
 - **⚙️ JSON Configuration**: Game values (Speed, Timers) are read from `doofus_diary.json`.
 - **🏆 Scoring**: Score increases as Doofus successfully walks on new Pulpits.
+- **🕹️ Game Modes**:
+  - **Assignment Mode**: The standard challenge to reach 50 pulpits as per the assignment.
+  - **Endless Mode**: Keep going as long as you can! Beat your high score in this infinite version.
 
 ---
 
@@ -36,6 +39,25 @@ This project implements the following levels as per the assignment criteria:
 - [x] **Level 1**: Character Movement and Platform placements read from the JSON file.
 - [x] **Level 2**: Score update after every successful move to a different pulpit.
 - [x] **Level 3**: "Start" Screen and "Game Over" Screen.
+
+---
+
+## 🎥 Gameplay Demo
+
+Check out the gameplay recordings included in the repository:
+
+- **[📺 Watch Main Game Mode](Recordings/Main%20Game.mp4)**
+- **[📺 Watch Endless Mode](Recordings/Endless%20Mode.mp4)**
+
+---
+
+## 🎮 Playable Demo
+
+Want to try the game immediately? A pre-built version is available in the `BuildDemo` folder.
+
+1.  Navigate to the `BuildDemo` folder.
+2.  Run **`HW_2025_Test.exe`**.
+3.  Enjoy!
 
 ---
 
