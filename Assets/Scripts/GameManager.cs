@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
             // Only check for victory condition if in Limited mode
             if (GameSettings.CurrentGameMode == GameMode.Limited)
             {
-                if (ScoreManager.Instance.GetScore() > 40)
+                if (ScoreManager.Instance.GetScore() > 50)
                 {
                     EndGame("Victory");
                 }
