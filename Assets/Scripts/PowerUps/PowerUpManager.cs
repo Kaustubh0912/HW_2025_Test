@@ -26,6 +26,8 @@ public class PowerUpManager : MonoBehaviour
     [SerializeField] private List<PowerUpConfig> powerUps;
     [SerializeField] [Range(0f, 1f)] private float spawnChance = 0.3f;
 
+    public event EventHandler OnPowerUpCollected;
+
     private Dictionary<PowerUpType, float> activePowerUpTimers = new Dictionary<PowerUpType, float>();
 
     private void Awake()
@@ -104,6 +106,8 @@ public class PowerUpManager : MonoBehaviour
     {
         PowerUpConfig config = powerUps.Find(p => p.type == type);
         if (config == null) return;
+
+        OnPowerUpCollected?.Invoke(this, EventArgs.Empty);
 
         if (!activePowerUpTimers.ContainsKey(type))
         {
