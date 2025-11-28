@@ -32,9 +32,13 @@ public class GameManager : MonoBehaviour
     {
         if (ScoreManager.Instance != null)
         {
-            if (ScoreManager.Instance.GetScore() > 40)
+            // Only check for victory condition if in Limited mode
+            if (GameSettings.CurrentGameMode == GameMode.Limited)
             {
-                EndGame("Victory");
+                if (ScoreManager.Instance.GetScore() > 40)
+                {
+                    EndGame("Victory");
+                }
             }
         }
 
@@ -49,6 +53,24 @@ public class GameManager : MonoBehaviour
 
     private void EndGame(string message)
     {
+        if (GameSettings.CurrentGameMode == GameMode.Endless && message == "Game Lost")
+        {
+            int currentScore = ScoreManager.Instance.GetScore();
+            int highScore = PlayerPrefs.GetInt("HighScore", 0);
+
+            if (currentScore > highScore)
+            {
+                highScore = currentScore;
+                PlayerPrefs.SetInt("HighScore", highScore);
+                PlayerPrefs.Save();
+                message = $"New High Score!\nScore: {currentScore}";
+            }
+            else
+            {
+                message = $"Game Over\nScore: {currentScore}\nHigh Score: {highScore}";
+            }
+        }
+
         GameOverMessage = message;
         SceneLoader.LoadScene(SceneLoader.Scene.GameOverScene);
         

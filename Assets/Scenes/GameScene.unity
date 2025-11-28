@@ -1469,7 +1469,7 @@ MonoBehaviour:
     powerUpPrefab: {fileID: 4384760504693393016, guid: 1adfe31b0a837d543b26d6ce0df1d3ec, type: 3}
     duration: 3
     speedMultiplier: 0
-  spawnChance: 1
+  spawnChance: 0.3
 --- !u!4 &1777775700
 Transform:
   m_ObjectHideFlags: 0

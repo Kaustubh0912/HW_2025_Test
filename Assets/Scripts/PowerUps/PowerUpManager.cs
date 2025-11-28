@@ -60,7 +60,7 @@ public class PowerUpManager : MonoBehaviour
             Collider pulpitCollider = pulpit.GetComponent<Collider>();
             if (pulpitCollider != null)
             {
-                spawnPos.y = pulpitCollider.bounds.max.y + 1f;
+                spawnPos.y = pulpitCollider.bounds.max.y + .5f;
             }
 
             GameObject go = Instantiate(config.powerUpPrefab, spawnPos, Quaternion.identity);
