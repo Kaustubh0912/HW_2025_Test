@@ -34,6 +34,11 @@ public class Pulpit : MonoBehaviour
         isDestroying = false;
 
         StartCoroutine(SpawnAnimation());
+
+        if (PowerUpManager.Instance != null)
+        {
+            PowerUpManager.Instance.TrySpawnPowerUp(this);
+        }
     }
 
     private void Update()

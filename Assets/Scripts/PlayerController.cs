@@ -3,14 +3,20 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController Instance { get; private set; }
+
     public float moveSpeed = 5f;
 
     private Rigidbody rb;
     private Vector3 inputDirection;
     private Pulpit currentPulpit;
+    
+    private float speedMultiplier = 1f;
+    private bool isInvincible = false;
 
     private void Awake()
     {
+        Instance = this;
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
 
@@ -85,7 +91,40 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector3 target = rb.position + inputDirection * moveSpeed * Time.fixedDeltaTime;
+        Vector3 target = rb.position + inputDirection * (moveSpeed * speedMultiplier) * Time.fixedDeltaTime;
+        
+        if (isInvincible)
+        {
+            // Prevent falling by clamping Y position if it tries to go below a threshold
+            // Or simply rely on the Rigidbody constraint we toggle
+            target.y = Mathf.Max(target.y, 0f); // Assuming 0 is platform level
+        }
+        
         rb.MovePosition(target);
+    }
+
+    public void SetSpeedMultiplier(float multiplier)
+    {
+        speedMultiplier = multiplier;
+    }
+
+    public void SetInvincible(bool invincible)
+    {
+        isInvincible = invincible;
+        if (isInvincible)
+        {
+            rb.constraints |= RigidbodyConstraints.FreezePositionY;
+            // Reset rotation constraints just in case, but keep FreezeRotation
+            rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
+            
+            // Reset velocity to prevent accumulated gravity force when constraint is removed
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+        }
+        else
+        {
+            // Remove FreezePositionY
+            rb.constraints &= ~RigidbodyConstraints.FreezePositionY;
+            rb.constraints = RigidbodyConstraints.FreezeRotation;
+        }
     }
 }
